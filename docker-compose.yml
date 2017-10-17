@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  webapplication:
+    image: stevenfollis/fourthcoffee:web
+    build:
+      context: .\WebApplication
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+  database:
+    image: stevenfollis/fourthcoffee:db
+    build:
+      context: .\Database
+      dockerfile: Dockerfile
+    environment:
+      - ACCEPT_EULA=Y
+      - sa_password=Docker123
