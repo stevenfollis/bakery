@@ -1,1 +1,0 @@
-c:\users\steven\documents\visual studio 2017\Projects\Bakery\obj\Release\docker-compose.dcproj.CoreCompileInputs.cache
