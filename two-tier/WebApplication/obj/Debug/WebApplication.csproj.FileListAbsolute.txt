@@ -1,0 +1,6 @@
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\bin\WebApplication.dll.config
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\bin\WebApplication.dll
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\bin\WebApplication.pdb
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\obj\Debug\WebApplication.csproj.CoreCompileInputs.cache
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\obj\Debug\WebApplication.dll
+c:\users\steven\documents\visual studio 2017\Projects\Bakery\WebApplication\obj\Debug\WebApplication.pdb

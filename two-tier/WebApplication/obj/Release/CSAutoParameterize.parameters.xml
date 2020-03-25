@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="bakery-Web.config Connection String" description="bakery Connection String used in web.config by the application to access the database." defaultValue="Data Source=database,1433;Initial Catalog=BakeryDB;User ID=sa;Password=Docker123" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="c:\\users\\steven\\documents\\visual\ studio\ 2017\\Projects\\Bakery\\WebApplication\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='bakery']/@connectionString" />
+  </parameter>
+</parameters>
