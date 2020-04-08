@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: bakery
+  name: bakery-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bakery
+  template:
+    metadata:
+      labels:
+        app: bakery
+      name: bakery
+    spec:
+      containers:
+        - name: web
+          image: stevenfollis/bakery:web
+      # tolerations:
+      #   - key: "os"
+      #     operation: "equal"
+      #     value: "windows"
+      #     effect: "NoSchedule"
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+        # node.kubernetes.io/windows-build: "10.0.17763" # Use starting in K8S v1.17
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bakery-service
+  labels:
+    name: bakery-service
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: bakery
+  # type: LoadBalancer
+  type: NodePort
