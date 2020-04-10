@@ -67,3 +67,35 @@ stages:
           - powershell: |
               docker image rm $(DOCKER_REGISTRY_IMAGE):"$(git rev-parse --short HEAD)";
             displayName: "Tidy Up"
+
+  - stage: deploy
+    displayName: Deploy to Docker Enterprise
+    dependsOn:
+    - build
+    jobs:
+    - job: helm
+      displayName: 'Deploy Container with Helm'
+      pool:
+        vmImage: windows-2019
+        # name: 'Shared SE - Linux'
+        # demands:
+        # - agent.os -equals Linux
+        # - docker
+      steps:
+      - task: DownloadSecureFile@1
+        inputs:
+          secureFile: 'ucp-bundle-azure-devops.zip'
+
+      - powershell: |
+          # Unzip Docker Client Bundle from UCP
+          Expand-Archive `
+            -LiteralPath $(Agent.TempDirectory)/bundle `
+            -DestinationPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
+          # unzip \
+          #   -d $(Agent.TempDirectory)/bundle \
+          #   $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
+        displayName: 'Setup Docker Client Bundle'
+
+      - powershell: |
+          # Get-Content $(Agent.TempDirectory)/bundle
+        displayName: 'Update application with kubectl'
