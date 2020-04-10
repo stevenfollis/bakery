@@ -72,8 +72,6 @@ stages:
 
   - stage: deploy
     displayName: Deploy to Docker Enterprise
-    # dependsOn:
-    # - build
     jobs:
     - job: kubectl
       displayName: 'Deploy Container with kubectl'
