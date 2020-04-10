@@ -90,8 +90,8 @@ stages:
             -LiteralPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip `
             -DestinationPath $(Build.SourcesDirectory)/bundle;
 
-          Write-Output "The path is: $(Build.SourcesDirectory)";
-          Get-Content -Path $(Build.SourcesDirectory)/bundle;
+          # Write-Output "The path is: $(Build.SourcesDirectory)";
+          # Get-Content -Path $(Build.SourcesDirectory)/bundle;
           # unzip \
           #   -d $(Agent.TempDirectory)/bundle \
           #   $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
