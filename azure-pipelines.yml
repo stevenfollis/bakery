@@ -1,3 +1,10 @@
+variables:
+  DOCKER_REGISTRY_FQDN: 52.247.60.23
+  DOCKER_REGISTRY_IMAGE: 52.247.60.23/apps/bakery
+  K8S_NAMESPACE: bakery
+  K8S_DEPLOYMENT: bakery-deployment
+  K8S_CONTAINER: web
+  
 trigger:
   branches:
     include:
@@ -20,8 +27,6 @@ stages:
   #         #   - docker
   #       variables:
   #         DOCKER_BUILDKIT: 0
-  #         DOCKER_REGISTRY_FQDN: 52.247.60.23
-  #         DOCKER_REGISTRY_IMAGE: 52.247.60.23/apps/bakery
   #       steps:
   #         - powershell: |
   #             Write-Host "Getting User";
@@ -96,5 +101,10 @@ stages:
           # Load Client Bundle and update image tag
           Set-Location -Path $(Build.SourcesDirectory)/bundle;
           Import-Module -Name .\env.ps1;
-          kubectl get nodes;
+          
+          # Set the image tag of the application's container
+          kubectl set image `
+            deployment/$(K8S_DEPLOYMENT) `
+            $(K8S_CONTAINER)=$(DOCKER_REGISTRY_IMAGE):"$(git rev-parse --short HEAD)" `
+            --namespace $(K8S_NAMESPACE);
         displayName: 'Update application with kubectl'
