@@ -87,8 +87,8 @@ stages:
       - powershell: |
           # Unzip Docker Client Bundle from UCP
           Expand-Archive `
-            -LiteralPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
-            -DestinationPath $(Agent.TempDirectory)/bundle `
+            -LiteralPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip `
+            -DestinationPath $(Agent.TempDirectory)/bundle;
           # unzip \
           #   -d $(Agent.TempDirectory)/bundle \
           #   $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
