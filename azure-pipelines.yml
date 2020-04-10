@@ -34,10 +34,11 @@ stages:
             displayName: "Get Docker Version"
           
           - powershell: |
-              Write-Host "Ignore insecure Docker Registry";
+              Write-Host "Set insecure registry in daemon configuration";
               Set-Content `
                 -Path $env:ProgramData\docker\config\daemon.json `
-                -Value $({"insecure-registries": ["$env:DOCKER_REGISTRY_FQDN"]}");
+                -Value '{{"insecure-registries": ["{0}"]}}' -f $env:DOCKER_REGISTRY_FQDN;
+                Restart-Service docker;
             displayName: "Ignore Registry"
 
           - powershell: |
