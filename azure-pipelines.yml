@@ -8,6 +8,8 @@ trigger:
 
 stages:
   - stage: build
+    dependsOn:
+    - deploy
     displayName: Build & Push Images
     jobs:
       - job: build_windows
@@ -70,10 +72,10 @@ stages:
 
   - stage: deploy
     displayName: Deploy to Docker Enterprise
-    dependsOn:
-    - build
+    # dependsOn:
+    # - build
     jobs:
-    - job: helm
+    - job: kubectl
       displayName: 'Deploy Container with kubectl'
       pool:
         vmImage: windows-2019
@@ -89,8 +91,8 @@ stages:
       - powershell: |
           # Unzip Docker Client Bundle from UCP
           Expand-Archive `
-            -LiteralPath $(Agent.TempDirectory)/bundle `
-            -DestinationPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
+            -LiteralPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
+            -DestinationPath $(Agent.TempDirectory)/bundle `
           # unzip \
           #   -d $(Agent.TempDirectory)/bundle \
           #   $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
