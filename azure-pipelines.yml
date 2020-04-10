@@ -99,5 +99,7 @@ stages:
 
       - powershell: |
           # Get-Content -Path $(Build.SourcesDirectory)/bundle;
-          kubectl
+          Set-Location -Path $(Build.SourcesDirectory)/bundle;
+          Import-Module -Name env.ps1;
+          kubectl get nodes;
         displayName: 'Update application with kubectl'
