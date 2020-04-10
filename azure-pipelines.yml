@@ -34,6 +34,13 @@ stages:
             displayName: "Get Docker Version"
           
           - powershell: |
+              Write-Host "Ignore insecure Docker Registry";
+              Set-Content `
+                -Path $env:ProgramData\docker\config\daemon.json `
+                -Value $({"insecure-registries": ["$env:DOCKER_REGISTRY_FQDN"]}");
+            displayName: "Ignore Registry"
+
+          - powershell: |
               # Login to the Docker Trusted Registry
               docker login $(DOCKER_REGISTRY_FQDN) `
                 --username $(DOCKER_REGISTRY_USERNAME) `
