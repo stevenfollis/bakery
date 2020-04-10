@@ -89,18 +89,12 @@ stages:
           Expand-Archive `
             -LiteralPath $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip `
             -DestinationPath $(Build.SourcesDirectory)/bundle;
-
-          # Write-Output "The path is: $(Build.SourcesDirectory)";
-          # Get-Content -Path $(Build.SourcesDirectory)/bundle;
-          # unzip \
-          #   -d $(Agent.TempDirectory)/bundle \
-          #   $(Agent.TempDirectory)/ucp-bundle-azure-devops.zip
+          Get-ChildItem -Path $(Build.SourcesDirectory)/bundle;
         displayName: 'Setup Docker Client Bundle'
 
       - powershell: |
-          # Get-Content -Path $(Build.SourcesDirectory)/bundle;
+          # Load Client Bundle and update image tag
           Set-Location -Path $(Build.SourcesDirectory)/bundle;
-          Get-Content;
           Import-Module -Name .\env.ps1;
           kubectl get nodes;
         displayName: 'Update application with kubectl'
