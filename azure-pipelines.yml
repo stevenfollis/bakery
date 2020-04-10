@@ -97,5 +97,6 @@ stages:
         displayName: 'Setup Docker Client Bundle'
 
       - powershell: |
-          # Get-Content $(Agent.TempDirectory)/bundle
+          Get-Content $(Agent.TempDirectory)/bundle
+          kubectl
         displayName: 'Update application with kubectl'
