@@ -1,0 +1,69 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - one-tier/*
+
+stages:
+  - stage: build
+    displayName: Build & Push Images
+    jobs:
+      - job: build_windows
+        displayName: "Build Windows Container"
+        pool:
+          vmImage: windows-2019
+          # name: "Shared SE - Windows"
+          # demands:
+          #   - agent.os -equals Windows_NT
+          #   - docker
+        variables:
+          DOCKER_BUILDKIT: 0
+          DOCKER_REGISTRY_FQDN: 52.247.60.23
+          DOCKER_REGISTRY_IMAGE: 52.247.60.23/apps/bakery
+        steps:
+          - powershell: |
+              Write-Host "Getting User";
+              whoami;
+            displayName: "Get User"
+          
+          - powershell: |
+              Write-Host "Getting Docker Version"
+              docker version;
+            displayName: "Get Docker Version"
+          
+          - powershell: |
+              Write-Host "Set insecure registry in daemon configuration";
+              
+              # Create a daemon.json configuration file with the insecure registry listed
+              Set-Content `
+                -Path $env:ProgramData\docker\config\daemon.json `
+                -Value $('{{"insecure-registries": ["{0}"]}}' -f $env:DOCKER_REGISTRY_FQDN);
+              
+              # Restart Docker to reload configuration
+              Restart-Service docker;
+            displayName: "Ignore Registry"
+
+          - powershell: |
+              # Login to the Docker Trusted Registry
+              docker login $(DOCKER_REGISTRY_FQDN) `
+                --username $(DOCKER_REGISTRY_USERNAME) `
+                --password $(DOCKER_REGISTRY_TOKEN);
+            displayName: "Login to Docker Trusted Registry"
+            errorActionPreference: silentlyContinue
+          
+          - powershell: |
+              docker build `
+                --file .\one-tier\Dockerfile `
+                --tag $(DOCKER_REGISTRY_IMAGE):"$(git rev-parse --short HEAD)" `
+                .\one-tier;
+            displayName: "Build Docker Image"
+          
+          - powershell: |
+              docker push $(DOCKER_REGISTRY_IMAGE):"$(git rev-parse --short HEAD)";
+            displayName: "Push Docker Image"
+          
+          - powershell: |
+              docker image rm $(DOCKER_REGISTRY_IMAGE):"$(git rev-parse --short HEAD)";
+            displayName: "Tidy Up"
