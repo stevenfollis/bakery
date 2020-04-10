@@ -74,7 +74,7 @@ stages:
     - build
     jobs:
     - job: helm
-      displayName: 'Deploy Container with Helm'
+      displayName: 'Deploy Container with kubectl'
       pool:
         vmImage: windows-2019
         # name: 'Shared SE - Linux'
