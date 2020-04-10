@@ -35,10 +35,14 @@ stages:
           
           - powershell: |
               Write-Host "Set insecure registry in daemon configuration";
+              
+              # Create a daemon.json configuration file with the insecure registry listed
               Set-Content `
                 -Path $env:ProgramData\docker\config\daemon.json `
-                -Value '{{"insecure-registries": ["{0}"]}}' -f $env:DOCKER_REGISTRY_FQDN;
-                Restart-Service docker;
+                -Value $('{{"insecure-registries": ["{0}"]}}' -f $env:DOCKER_REGISTRY_FQDN);
+              
+              # Restart Docker to reload configuration
+              Restart-Service docker;
             displayName: "Ignore Registry"
 
           - powershell: |
