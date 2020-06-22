@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bakery
+spec:
+  rules:
+    - host: bakery.kube.maws.mr.dtcntr.net
+      http:
+        paths:
+          - backend:
+              serviceName: bakery
+              servicePort: 80
