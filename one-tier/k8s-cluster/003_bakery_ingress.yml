@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bakery
+spec:
+  rules:
+    - host: bakery.{ur.fqdn}
+      http:
+        paths:
+          - backend:
+              serviceName: bakery
+              servicePort: 80
