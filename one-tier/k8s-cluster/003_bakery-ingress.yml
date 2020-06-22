@@ -4,7 +4,7 @@ metadata:
   name: bakery
 spec:
   rules:
-    - host: bakery.kube.maws.mr.dtcntr.net
+    - host: bakery.{ur.fqdn}
       http:
         paths:
           - backend:
