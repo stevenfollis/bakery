@@ -4,7 +4,7 @@ metadata:
   name: bakery
 spec:
   hosts:
-    - bakery.kube.maws.mr.dtcntr.net
+    - bakery.{ur.fqdn}
   gateways:
     - istio-system/demo-gateway
   http:
